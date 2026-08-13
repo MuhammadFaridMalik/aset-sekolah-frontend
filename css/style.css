@@ -95,3 +95,39 @@ button {
   color: #71717a;
   padding: 2rem;
 }
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-box {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 420px;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+.modal-box h2 {
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d4d4d8;
+  border-radius: 6px;
+  min-height: 60px;
+  font-family: inherit;
+}
