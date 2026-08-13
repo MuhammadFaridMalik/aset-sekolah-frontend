@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Manajemen Aset Sekolah</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header class="topbar">
+            <h1>Manajemen Aset Sekolah</h1>
+            <div class="user-info">
+                <span id="userName"></span>
+                <button onclick="logout()">Keluar</button>
+            </div>
+        </header>
+
+        <main class="content">
+            <div class="toolbar">
+                <input type="text" id="searchInput" placeholder="Cari nama/kode aset...">
+                <select id="categoryFilter"><option value="">Semua kategori</option></select>
+                <button id="btnTambah">+ Tambah Aset</button>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Kode</th>
+                        <th>Nama Aset</th>
+                        <th>Kategori</th>
+                        <th>Lokasi</th>
+                        <th>Kondisi</th>
+                        <th>Jumlah</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="assetTableBody"></tbody>
+            </table>
+
+            <p id="emptyState" class="empty-state" style="display:none;">Belum ada data aset.</p>
+        </main>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/assets.js"></script>
+</body>
+</html>
