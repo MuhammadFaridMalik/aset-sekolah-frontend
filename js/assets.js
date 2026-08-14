@@ -31,6 +31,15 @@ function kondisiLabel(kondisi) {
   return map[kondisi] || kondisi;
 }
 
+function kondisiBadgeClass(kondisi) {
+  const map = {
+    baik: "badge-baik",
+    rusak_ringan: "badge-warn",
+    rusak_berat: "badge-bad",
+  };
+  return map[kondisi] || "";
+}
+
 async function loadAssets() {
   const search = searchInput.value;
   const categoryId = categoryFilter.value;
@@ -48,18 +57,18 @@ async function loadAssets() {
   assets.forEach((asset) => {
     const row = document.createElement("tr");
     row.innerHTML = `
-            <td>${asset.kode_aset}</td>
+            <td><span class="tag-code">${asset.kode_aset}</span></td>
             <td>${asset.nama_aset}</td>
             <td>${asset.category.nama_kategori}</td>
             <td>${asset.location.nama_ruangan}</td>
-            <td>${kondisiLabel(asset.kondisi)}</td>
+            <td><span class="badge ${kondisiBadgeClass(asset.kondisi)}">${kondisiLabel(asset.kondisi)}</span></td>
             <td>${asset.jumlah}</td>
             <td>
                 ${
                   user.role === "admin"
                     ? `
-                    <button onclick="editAsset(${asset.id})">Edit</button>
-                    <button onclick="deleteAsset(${asset.id})">Hapus</button>
+                    <button class="btn-icon" onclick="editAsset(${asset.id})">Edit</button>
+                    <button class="btn-icon danger" onclick="deleteAsset(${asset.id})">Hapus</button>
                 `
                     : "-"
                 }
@@ -125,16 +134,16 @@ function openModal() {
 }
 
 function closeModal() {
-    modal.style.display = 'none';
-    assetForm.reset();
-    document.getElementById('assetId').value = '';
-    document.getElementById('kodeAsetGroup').style.display = 'none';
-    formError.textContent = '';
+  modal.style.display = "flex" === "flex" ? "none" : "none";
+  assetForm.reset();
+  document.getElementById("assetId").value = "";
+  document.getElementById("kodeAsetGroup").style.display = "none";
+  formError.textContent = "";
 }
 
 document.getElementById("btnTambah").addEventListener("click", async () => {
   modalTitle.textContent = "Tambah Aset";
-  document.getElementById('KodeAsetGroup').style.display = 'none';
+  document.getElementById("kodeAsetGroup").style.display = "none";
   await loadFormDropdowns();
   openModal();
 });
@@ -149,7 +158,14 @@ async function editAsset(id) {
   document.getElementById("kodeAsetGroup").style.display = "block";
   document.getElementById("assetId").value = asset.id;
   document.getElementById("kodeAset").value = asset.kode_aset;
-  // ... baris lainnya tetap sama
+  document.getElementById("namaAset").value = asset.nama_aset;
+  document.getElementById("categoryId").value = asset.category.id;
+  document.getElementById("locationId").value = asset.location.id;
+  document.getElementById("kondisi").value = asset.kondisi;
+  document.getElementById("jumlah").value = asset.jumlah;
+  document.getElementById("tanggalPerolehan").value = asset.tanggal_perolehan || "";
+  document.getElementById("keterangan").value = asset.keterangan || "";
+
   openModal();
 }
 
@@ -170,7 +186,7 @@ assetForm.addEventListener("submit", async (e) => {
   };
 
   if (id) {
-    payload.kode_aset = document.getElementById('kodeAset').value;
+    payload.kode_aset = document.getElementById("kodeAset").value;
   }
 
   const url = id ? `${API_BASE_URL}/assets/${id}` : `${API_BASE_URL}/assets`;

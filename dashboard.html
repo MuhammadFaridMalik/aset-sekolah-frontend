@@ -13,7 +13,7 @@
             <div class="user-info">
                 <a id="masterDataLink" href="master-data.html" style="display:none;">Kelola Data Master</a>
                 <span id="userName"></span>
-                <button onclick="logout()">Keluar</button>
+                <button class="btn-ghost" onclick="logout()">Keluar</button>
             </div>
         </header>
 
@@ -39,9 +39,10 @@
                 <tbody id="assetTableBody"></tbody>
             </table>
 
-            <p id="emptyState" class="empty-state" style="display:none;">Belum ada data aset.</p>
+            <p id="emptyState" class="empty-state" style="display:none;">Belum ada data aset. Klik "+ Tambah Aset" untuk mulai mendata.</p>
         </main>
     </div>
+
     <div id="assetModal" class="modal-overlay" style="display:none;">
         <div class="modal-box">
             <h2 id="modalTitle">Tambah Aset</h2>
