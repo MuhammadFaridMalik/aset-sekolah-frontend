@@ -18,3 +18,7 @@ function logout() {
         window.location.href = 'index.html';
     });
 }
+
+if (user.role === 'admin') {
+    document.getElementById('masterDataLink').style.display = 'inline';
+}
