@@ -38,8 +38,8 @@ async function loadCategories() {
             <td>${cat.nama_kategori}</td>
             <td>${cat.total_aset ?? 0}</td>
             <td>
-                <button onclick="editMaster('category', ${cat.id}, '${cat.nama_kategori}')">Edit</button>
-                <button onclick="deleteMaster('category', ${cat.id})">Hapus</button>
+                <button class="btn-icon" onclick="editMaster('category', ${cat.id}, '${cat.nama_kategori}')">Edit</button>
+                <button class="btn-icon danger" onclick="deleteMaster('category', ${cat.id})">Hapus</button>
             </td>
         </tr>
     `).join('');
@@ -54,8 +54,8 @@ async function loadLocations() {
             <td>${loc.lokasi_gedung ?? '-'}</td>
             <td>${loc.total_aset ?? 0}</td>
             <td>
-                <button onclick="editMaster('location', ${loc.id}, '${loc.nama_ruangan}', '${loc.lokasi_gedung ?? ''}')">Edit</button>
-                <button onclick="deleteMaster('location', ${loc.id})">Hapus</button>
+                <button class="btn-icon" onclick="editMaster('location', ${loc.id}, '${loc.nama_ruangan}', '${loc.lokasi_gedung ?? ''}')">Edit</button>
+                <button class="btn-icon danger" onclick="deleteMaster('location', ${loc.id})">Hapus</button>
             </td>
         </tr>
     `).join('');
