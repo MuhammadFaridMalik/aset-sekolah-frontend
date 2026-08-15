@@ -100,12 +100,14 @@ async function deleteAsset(id) {
   });
 
   loadAssets();
+  loadStats();
 }
 
 searchInput.addEventListener("input", () => loadAssets());
 categoryFilter.addEventListener("change", () => loadAssets());
 
 loadAssets();
+loadcategoriesForFilter();
 loadCategoriesForFilter();
 
 const modal = document.getElementById("assetModal");
@@ -163,7 +165,8 @@ async function editAsset(id) {
   document.getElementById("locationId").value = asset.location.id;
   document.getElementById("kondisi").value = asset.kondisi;
   document.getElementById("jumlah").value = asset.jumlah;
-  document.getElementById("tanggalPerolehan").value = asset.tanggal_perolehan || "";
+  document.getElementById("tanggalPerolehan").value =
+    asset.tanggal_perolehan || "";
   document.getElementById("keterangan").value = asset.keterangan || "";
 
   openModal();
@@ -213,5 +216,16 @@ assetForm.addEventListener("submit", async (e) => {
   }
 
   closeModal();
+  loadStats();
   loadAssets();
 });
+
+async function loadStats() {
+  const stats = await apiFetch("/dashboard/stats");
+
+  document.getElementById("statTotalAset").textContent = stats.total_aset;
+  document.getElementById("statTotalItem").textContent = stats.total_item;
+  document.getElementById("statKondisiBaik").textContent = stats.kondisi.baik;
+  document.getElementById("statKondisiRusak").textContent =
+    stats.kondisi.rusak_ringan + stats.kondisi.rusak_berat;
+}
