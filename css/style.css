@@ -515,3 +515,19 @@ button[type="submit"]:hover {
 .stat-card.accent-bad .stat-value {
   color: var(--brick);
 }
+
+.chart-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1.75rem;
+    max-width: 360px;
+}
+
+.chart-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}

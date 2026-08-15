@@ -109,6 +109,7 @@ categoryFilter.addEventListener("change", () => loadAssets());
 loadAssets();
 loadCategoriesForFilter();
 loadStats();
+loadChart();
 
 const modal = document.getElementById("assetModal");
 const modalTitle = document.getElementById("modalTitle");
@@ -228,4 +229,46 @@ async function loadStats() {
   document.getElementById("statKondisiBaik").textContent = stats.kondisi.baik;
   document.getElementById("statKondisiRusak").textContent =
     Number(stats.kondisi.rusak_ringan) + Number(stats.kondisi.rusak_berat);
+}
+
+let kondisiChartInstance = null;
+
+async function loadChart() {
+  const stats = await apiFetch("/dashboard/stats");
+  const ctx = document.getElementById("kondisiChart");
+
+  const dataValues = [
+    Number(stats.kondisi.baik),
+    Number(stats.kondisi.rusak_ringan),
+    Number(stats.kondisi.rusak_berat),
+  ];
+
+  if (kondisiChartInstance) {
+    kondisiChartInstance.data.datasets[0].data = dataValues;
+    kondisiChartInstance.update();
+    return;
+  }
+
+  kondisiChartInstance = new Chart(ctx, {
+    type: "doughnut",
+    data: {
+      labels: ["Baik", "Rusak ringan", "Rusak berat"],
+      datasets: [
+        {
+          data: dataValues,
+          backgroundColor: ["#3F6E52", "#B08A2E", "#A1453B"],
+          borderWidth: 0,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: "bottom",
+          labels: { font: { family: "Inter", size: 12 }, padding: 12 },
+        },
+      },
+    },
+  });
 }

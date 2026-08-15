@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Manajemen Aset Sekolah</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
 </head>
 <body>
     <div class="app-container">
@@ -35,6 +36,10 @@
                     <div class="stat-label">Perlu Perhatian</div>
                     <div class="stat-value" id="statKondisiRusak">–</div>
                 </div>
+            </div>
+            <div class="chart-card">
+                <h2 class="chart-title">Distribusi Kondisi Aset</h2>
+                <canvas id="kondisiChart"></canvas>
             </div>
             <div class="toolbar">
                 <input type="text" id="searchInput" placeholder="Cari nama/kode aset...">
