@@ -227,5 +227,5 @@ async function loadStats() {
   document.getElementById("statTotalItem").textContent = stats.total_item;
   document.getElementById("statKondisiBaik").textContent = stats.kondisi.baik;
   document.getElementById("statKondisiRusak").textContent =
-    stats.kondisi.rusak_ringan + stats.kondisi.rusak_berat;
+    Number(stats.kondisi.rusak_ringan) + Number(stats.kondisi.rusak_berat);
 }
