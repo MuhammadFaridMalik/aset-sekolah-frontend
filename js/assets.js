@@ -107,8 +107,8 @@ searchInput.addEventListener("input", () => loadAssets());
 categoryFilter.addEventListener("change", () => loadAssets());
 
 loadAssets();
-loadcategoriesForFilter();
 loadCategoriesForFilter();
+loadStats();
 
 const modal = document.getElementById("assetModal");
 const modalTitle = document.getElementById("modalTitle");
