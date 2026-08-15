@@ -272,3 +272,82 @@ async function loadChart() {
     },
   });
 }
+
+let kondisiChartInstance = null;
+let kategoriChartInstance = null;
+
+async function loadChart() {
+  const stats = await apiFetch("/dashboard/stats");
+
+  // Donut chart kondisi
+  const kondisiValues = [
+    Number(stats.kondisi.baik),
+    Number(stats.kondisi.rusak_ringan),
+    Number(stats.kondisi.rusak_berat),
+  ];
+
+  if (kondisiChartInstance) {
+    kondisiChartInstance.data.datasets[0].data = kondisiValues;
+    kondisiChartInstance.update();
+  } else {
+    kondisiChartInstance = new Chart(document.getElementById("kondisiChart"), {
+      type: "doughnut",
+      data: {
+        labels: ["Baik", "Rusak ringan", "Rusak berat"],
+        datasets: [
+          {
+            data: kondisiValues,
+            backgroundColor: ["#3F6E52", "#B08A2E", "#A1453B"],
+            borderWidth: 0,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            position: "bottom",
+            labels: { font: { family: "Inter", size: 12 }, padding: 12 },
+          },
+        },
+      },
+    });
+  }
+
+  // Bar chart aset per kategori
+  const kategoriLabels = stats.aset_per_kategori.map((k) => k.nama_kategori);
+  const kategoriValues = stats.aset_per_kategori.map((k) => Number(k.total));
+
+  if (kategoriChartInstance) {
+    kategoriChartInstance.data.labels = kategoriLabels;
+    kategoriChartInstance.data.datasets[0].data = kategoriValues;
+    kategoriChartInstance.update();
+  } else {
+    kategoriChartInstance = new Chart(
+      document.getElementById("kategoriChart"),
+      {
+        type: "bar",
+        data: {
+          labels: kategoriLabels,
+          datasets: [
+            {
+              data: kategoriValues,
+              backgroundColor: "#9C6B2E",
+              borderRadius: 6,
+              maxBarThickness: 40,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true, ticks: { precision: 0 } },
+          },
+        },
+      },
+    );
+  }
+}

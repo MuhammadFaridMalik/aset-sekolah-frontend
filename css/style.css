@@ -516,18 +516,27 @@ button[type="submit"]:hover {
   color: var(--brick);
 }
 
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
 .chart-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.25rem;
-    box-shadow: var(--shadow);
-    margin-bottom: 1.75rem;
-    max-width: 360px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+}
+
+.chart-card canvas {
+  max-height: 220px;
 }
 
 .chart-title {
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
 }
