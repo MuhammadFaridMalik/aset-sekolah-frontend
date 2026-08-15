@@ -101,15 +101,11 @@ async function deleteAsset(id) {
 
   loadAssets();
   loadStats();
+  loadChart();
 }
 
 searchInput.addEventListener("input", () => loadAssets());
 categoryFilter.addEventListener("change", () => loadAssets());
-
-loadAssets();
-loadCategoriesForFilter();
-loadStats();
-loadChart();
 
 const modal = document.getElementById("assetModal");
 const modalTitle = document.getElementById("modalTitle");
@@ -137,7 +133,7 @@ function openModal() {
 }
 
 function closeModal() {
-  modal.style.display = "flex" === "flex" ? "none" : "none";
+  modal.style.display = "none";
   assetForm.reset();
   document.getElementById("assetId").value = "";
   document.getElementById("kodeAsetGroup").style.display = "none";
@@ -219,6 +215,7 @@ assetForm.addEventListener("submit", async (e) => {
   closeModal();
   loadStats();
   loadAssets();
+  loadChart();
 });
 
 async function loadStats() {
@@ -231,7 +228,12 @@ async function loadStats() {
     Number(stats.kondisi.rusak_ringan) + Number(stats.kondisi.rusak_berat);
 }
 
-  // Donut chart kondisi
+let kondisiChartInstance = null;
+let kategoriChartInstance = null;
+
+async function loadChart() {
+  const stats = await apiFetch("/dashboard/stats");
+
   const kondisiValues = [
     Number(stats.kondisi.baik),
     Number(stats.kondisi.rusak_ringan),
@@ -267,7 +269,6 @@ async function loadStats() {
     });
   }
 
-  // Bar chart aset per kategori
   const kategoriLabels = stats.aset_per_kategori.map((k) => k.nama_kategori);
   const kategoriValues = stats.aset_per_kategori.map((k) => Number(k.total));
 
@@ -302,3 +303,9 @@ async function loadStats() {
       },
     );
   }
+}
+
+loadAssets();
+loadCategoriesForFilter();
+loadStats();
+loadChart();
