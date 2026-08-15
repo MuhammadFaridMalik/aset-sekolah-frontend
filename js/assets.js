@@ -89,7 +89,7 @@ async function loadCategoriesForFilter() {
 }
 
 async function deleteAsset(id) {
-  if (!confirm("Yakin hapus aset ini?")) return;
+  if (!(await showConfirm("Yakin hapus aset ini?"))) return;
 
   await fetch(`${API_BASE_URL}/assets/${id}`, {
     method: "DELETE",
@@ -103,6 +103,7 @@ async function deleteAsset(id) {
   loadAssets();
   loadStats();
   loadChart();
+  loadRecentActivity();
 }
 
 searchInput.addEventListener("input", () => loadAssets());
@@ -218,6 +219,7 @@ assetForm.addEventListener("submit", async (e) => {
   loadStats();
   loadAssets();
   loadChart();
+  loadRecentActivity();
 });
 
 async function loadStats() {
@@ -307,46 +309,38 @@ async function loadChart() {
   }
 }
 
-function showToast(message, type = "success") {
-  const container = document.getElementById("toastContainer");
-  const toast = document.createElement("div");
-  toast.className = `toast toast-${type}`;
-  toast.textContent = message;
-  container.appendChild(toast);
+async function loadRecentActivity() {
+  const result = await apiFetch("/assets");
+  const recent = result.data.slice(0, 5);
+  const list = document.getElementById("activityList");
 
-  setTimeout(() => {
-    toast.classList.add("toast-out");
-    setTimeout(() => toast.remove(), 200);
-  }, 3000);
-}
+  if (!list) return;
 
-function showConfirm(message) {
-  return new Promise((resolve) => {
-    const overlay = document.createElement("div");
-    overlay.className = "confirm-overlay";
-    overlay.innerHTML = `
-            <div class="confirm-box">
-                <p>${message}</p>
-                <div class="confirm-actions">
-                    <button type="button" class="btn-ghost" id="confirmCancel">Batal</button>
-                    <button type="button" class="btn-primary" id="confirmOk">Ya, lanjutkan</button>
-                </div>
+  if (recent.length === 0) {
+    list.innerHTML =
+      '<p class="empty-state" style="border:none;margin:0;padding:1rem 0;">Belum ada aktivitas.</p>';
+    return;
+  }
+
+  list.innerHTML = recent
+    .map(
+      (asset) => `
+        <div class="activity-item">
+            <div class="activity-icon">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/></svg>
             </div>
-        `;
-    document.body.appendChild(overlay);
-
-    overlay.querySelector("#confirmCancel").onclick = () => {
-      overlay.remove();
-      resolve(false);
-    };
-    overlay.querySelector("#confirmOk").onclick = () => {
-      overlay.remove();
-      resolve(true);
-    };
-  });
+            <div class="activity-body">
+                <div class="activity-title">${asset.nama_aset} <span class="tag-code" style="font-size:0.7rem;">${asset.kode_aset}</span></div>
+                <div class="activity-meta">Ditambahkan oleh ${asset.created_by} · ${kondisiLabel(asset.kondisi)}</div>
+            </div>
+        </div>
+    `
+    )
+    .join("");
 }
 
 loadAssets();
 loadCategoriesForFilter();
 loadStats();
 loadChart();
+loadRecentActivity();

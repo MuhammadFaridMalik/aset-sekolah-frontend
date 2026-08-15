@@ -761,3 +761,186 @@ button[type="submit"]:hover {
   justify-content: flex-end;
   gap: 0.5rem;
 }
+
+/* Icons */
+.icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.sidebar-link .icon {
+  color: var(--ink-soft);
+}
+.sidebar-link:hover .icon,
+.sidebar-link.active .icon {
+  color: var(--brass-dark);
+}
+
+/* Greeting header */
+.topbar-greeting .greeting-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.topbar-greeting .greeting-date {
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  margin-top: 0.1rem;
+}
+
+/* Avatar */
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--brass), var(--brass-dark));
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+.sidebar-footer-user {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0 0.75rem;
+  margin-bottom: 0.75rem;
+}
+.sidebar-footer-user .user-name {
+  padding: 0;
+  margin: 0;
+  font-weight: 500;
+  color: var(--ink);
+}
+.sidebar-footer-user .user-role {
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  text-transform: capitalize;
+}
+
+/* Section labels */
+.section-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-soft);
+  margin: 0 0 0.6rem 0.1rem;
+}
+
+/* Stat cards with icon + hover lift */
+.stat-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(34, 38, 43, 0.09);
+}
+.stat-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 9px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-alt);
+}
+.stat-icon .icon {
+  width: 19px;
+  height: 19px;
+  color: var(--brass);
+}
+.stat-card.accent-baik .stat-icon {
+  background: var(--emerald-bg);
+}
+.stat-card.accent-baik .stat-icon .icon {
+  color: var(--emerald);
+}
+.stat-card.accent-bad .stat-icon {
+  background: var(--brick-bg);
+}
+.stat-card.accent-bad .stat-icon .icon {
+  color: var(--brick);
+}
+
+/* Chart card hover */
+.chart-card {
+  transition: box-shadow 0.15s ease;
+}
+.chart-card:hover {
+  box-shadow: 0 4px 20px rgba(34, 38, 43, 0.09);
+}
+
+/* Recent activity */
+.activity-list {
+  display: flex;
+  flex-direction: column;
+}
+.activity-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.activity-item:last-child {
+  border-bottom: none;
+}
+.activity-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  background: var(--surface-alt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.activity-icon .icon {
+  width: 16px;
+  height: 16px;
+  color: var(--brass);
+}
+.activity-body {
+  flex: 1;
+  min-width: 0;
+}
+.activity-title {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--ink);
+}
+.activity-meta {
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  margin-top: 0.1rem;
+}
+
+/* Table row subtle lift */
+.data-table tbody tr {
+  transition: background 0.1s ease;
+}
+
+/* Background texture on page */
+body {
+  background-image: radial-gradient(
+    circle at 100% 0%,
+    rgba(156, 107, 46, 0.05),
+    transparent 45%
+  );
+  background-attachment: fixed;
+}
