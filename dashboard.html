@@ -8,125 +8,78 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
 </head>
 <body>
-    <div class="app-container">
-        <header class="topbar">
-            <h1>Manajemen Aset Sekolah</h1>
-            <div class="user-info">
-                <a id="masterDataLink" href="master-data.html" style="display:none;">Kelola Data Master</a>
-                <span id="userName"></span>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="sidebar-brand">Manajemen Aset</div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="sidebar-link active">Dashboard</a>
+                <a id="masterDataLink" href="master-data.html" class="sidebar-link" style="display:none;">Kelola Data Master</a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-name" id="userName"></div>
                 <button class="btn-ghost" onclick="logout()">Keluar</button>
             </div>
-        </header>
+        </aside>
 
-        <main class="content">
-            <div class="stats-grid" id="statsGrid">
-                <div class="stat-card">
-                    <div class="stat-label">Total Aset</div>
-                    <div class="stat-value" id="statTotalAset">–</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Jenis Barang</div>
-                    <div class="stat-value" id="statTotalItem">–</div>
-                </div>
-                <div class="stat-card accent-baik">
-                    <div class="stat-label">Kondisi Baik</div>
-                    <div class="stat-value" id="statKondisiBaik">–</div>
-                </div>
-                <div class="stat-card accent-bad">
-                    <div class="stat-label">Perlu Perhatian</div>
-                    <div class="stat-value" id="statKondisiRusak">–</div>
-                </div>
-            </div>
-            <div class="charts-grid">
-                <div class="chart-card">
-                    <h2 class="chart-title">Distribusi Kondisi Aset</h2>
-                    <canvas id="kondisiChart"></canvas>
-                </div>
-                <div class="chart-card">
-                    <h2 class="chart-title">Aset per Kategori</h2>
-                    <canvas id="kategoriChart"></canvas>
-                </div>
-            </div>
-            <div class="toolbar">
-                <input type="text" id="searchInput" placeholder="Cari nama/kode aset...">
-                <select id="categoryFilter"><option value="">Semua kategori</option></select>
-                <button id="btnTambah">+ Tambah Aset</button>
-            </div>
+        <div class="main-area">
+            <header class="topbar">
+                <h1>Dashboard</h1>
+            </header>
 
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Kode</th>
-                        <th>Nama Aset</th>
-                        <th>Kategori</th>
-                        <th>Lokasi</th>
-                        <th>Kondisi</th>
-                        <th>Jumlah</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="assetTableBody"></tbody>
-            </table>
-
-            <p id="emptyState" class="empty-state" style="display:none;">Belum ada data aset. Klik "+ Tambah Aset" untuk mulai mendata.</p>
-        </main>
-    </div>
-
-    <div id="assetModal" class="modal-overlay" style="display:none;">
-        <div class="modal-box">
-            <h2 id="modalTitle">Tambah Aset</h2>
-            <form id="assetForm">
-                <input type="hidden" id="assetId">
-
-                <div class="form-group" id="kodeAsetGroup" style="display:none;">
-                    <label for="kodeAset">Kode Aset</label>
-                    <input type="text" id="kodeAset" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="namaAset">Nama Aset</label>
-                    <input type="text" id="namaAset" required>
-                </div>
-                <div class="form-group">
-                    <label for="categoryId">Kategori</label>
-                    <select id="categoryId" required></select>
-                </div>
-                <div class="form-group">
-                    <label for="locationId">Ruangan</label>
-                    <select id="locationId" required></select>
-                </div>
-                <div class="form-group">
-                    <label for="kondisi">Kondisi</label>
-                    <select id="kondisi" required>
-                        <option value="baik">Baik</option>
-                        <option value="rusak_ringan">Rusak ringan</option>
-                        <option value="rusak_berat">Rusak berat</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="jumlah">Jumlah</label>
-                    <input type="number" id="jumlah" min="1" value="1" required>
-                </div>
-                <div class="form-group">
-                    <label for="tanggalPerolehan">Tanggal Perolehan</label>
-                    <input type="date" id="tanggalPerolehan">
-                </div>
-                <div class="form-group">
-                    <label for="keterangan">Keterangan</label>
-                    <textarea id="keterangan"></textarea>
+            <main class="content">
+                <div class="stats-grid" id="statsGrid">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Aset</div>
+                        <div class="stat-value" id="statTotalAset">–</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Jenis Barang</div>
+                        <div class="stat-value" id="statTotalItem">–</div>
+                    </div>
+                    <div class="stat-card accent-baik">
+                        <div class="stat-label">Kondisi Baik</div>
+                        <div class="stat-value" id="statKondisiBaik">–</div>
+                    </div>
+                    <div class="stat-card accent-bad">
+                        <div class="stat-label">Perlu Perhatian</div>
+                        <div class="stat-value" id="statKondisiRusak">–</div>
+                    </div>
                 </div>
 
-                <p id="formError" class="error-message"></p>
-
-                <div class="modal-actions">
-                    <button type="button" onclick="closeModal()">Batal</button>
-                    <button type="submit">Simpan</button>
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h2 class="chart-title">Distribusi Kondisi Aset</h2>
+                        <canvas id="kondisiChart"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <h2 class="chart-title">Aset per Kategori</h2>
+                        <canvas id="kategoriChart"></canvas>
+                    </div>
                 </div>
-            </form>
+
+                <div class="toolbar">
+                    <input type="text" id="searchInput" placeholder="Cari nama/kode aset...">
+                    <select id="categoryFilter"><option value="">Semua kategori</option></select>
+                    <button id="btnTambah">+ Tambah Aset</button>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Kode</th>
+                            <th>Nama Aset</th>
+                            <th>Kategori</th>
+                            <th>Lokasi</th>
+                            <th>Kondisi</th>
+                            <th>Jumlah</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="assetTableBody"></tbody>
+                </table>
+
+                <p id="emptyState" class="empty-state" style="display:none;">Belum ada data aset. Klik "+ Tambah Aset" untuk mulai mendata.</p>
+            </main>
         </div>
     </div>
-
-    <script src="js/config.js"></script>
-    <script src="js/dashboard.js"></script>
-    <script src="js/assets.js"></script>
-</body>
 </html>
