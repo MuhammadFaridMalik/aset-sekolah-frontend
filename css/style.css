@@ -944,3 +944,34 @@ body {
   );
   background-attachment: fixed;
 }
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.pagination button {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+}
+
+.pagination button:hover:not(:disabled) {
+  border-color: var(--brass);
+}
+.pagination button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.pagination .page-info {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  margin: 0 0.5rem;
+}

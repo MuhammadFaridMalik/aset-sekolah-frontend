@@ -40,13 +40,14 @@ function kondisiBadgeClass(kondisi) {
   return map[kondisi] || "";
 }
 
-async function loadAssets() {
+async function loadAssets(page = 1) {
   const search = searchInput.value;
   const categoryId = categoryFilter.value;
 
   const params = new URLSearchParams();
   if (search) params.append("search", search);
   if (categoryId) params.append("category_id", categoryId);
+  params.append("page", page);
 
   const result = await apiFetch(`/assets?${params.toString()}`);
   const assets = result.data;
@@ -76,6 +77,24 @@ async function loadAssets() {
         `;
     tableBody.appendChild(row);
   });
+
+  renderPagination(result.meta);
+}
+
+function renderPagination(meta) {
+  const el = document.getElementById("pagination");
+  if (!el) return;
+
+  if (!meta || meta.last_page <= 1) {
+    el.innerHTML = "";
+    return;
+  }
+
+  el.innerHTML = `
+    <button ${meta.current_page === 1 ? "disabled" : ""} onclick="loadAssets(${meta.current_page - 1})">← Sebelumnya</button>
+    <span class="page-info">Halaman ${meta.current_page} dari ${meta.last_page}</span>
+    <button ${meta.current_page === meta.last_page ? "disabled" : ""} onclick="loadAssets(${meta.current_page + 1})">Selanjutnya →</button>
+  `;
 }
 
 async function loadCategoriesForFilter() {
