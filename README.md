@@ -17,24 +17,30 @@ Frontend ini sengaja dibuat dengan JavaScript vanilla, bukan React/Vue, karena f
 ## Fitur
 
 - Halaman login yang terhubung ke API autentikasi (token disimpan di `localStorage`)
-- Dashboard dengan tabel data aset, dilengkapi pencarian dan filter berdasarkan kategori
+- Sidebar navigasi dengan sapaan personal dan avatar pengguna
+- Dashboard berisi kartu statistik (total aset, jenis barang, kondisi baik, perlu perhatian)
+- Grafik distribusi kondisi aset (doughnut chart) dan aset per kategori (bar chart), pakai Chart.js
+- Panel "Aktivitas Terbaru" menampilkan aset yang paling baru ditambahkan
+- Tabel data aset dengan pencarian, filter kategori, dan pagination
 - Form tambah/edit aset dalam bentuk modal
 - Halaman "Kelola Data Master" untuk mengatur kategori dan lokasi (khusus admin)
+- Notifikasi toast dan dialog konfirmasi custom (bukan `alert()`/`confirm()` bawaan browser)
 - Tampilan menyesuaikan role: tombol edit/hapus hanya muncul untuk admin, staff hanya bisa melihat dan menambah data
 
 ## Struktur Folder
 
 ```
 ├── index.html          halaman login
-├── dashboard.html       tabel & CRUD aset
+├── dashboard.html       statistik, grafik, & CRUD aset
 ├── master-data.html     kelola kategori & lokasi
 ├── css/
 │   └── style.css
 └── js/
     ├── config.js         alamat API backend
     ├── auth.js            logika login
-    ├── dashboard.js       cek token & logout
-    ├── assets.js           CRUD aset
+    ├── dashboard.js       cek token, avatar, sapaan, logout
+    ├── ui.js               toast notification & confirm dialog
+    ├── assets.js           CRUD aset, statistik, grafik, pagination
     └── master-data.js     CRUD kategori & lokasi
 ```
 
@@ -52,6 +58,8 @@ fetch(`${API_BASE_URL}/assets`, {
 ```
 
 Kalau token tidak valid atau kedaluwarsa (respons `401`), pengguna otomatis diarahkan kembali ke halaman login.
+
+Data statistik dan grafik dashboard diambil dari satu endpoint gabungan (`/api/dashboard/stats`), dan tabel aset menggunakan pagination bawaan Laravel — nomor halaman dikirim lewat parameter `?page=`, dan navigasi antar halaman dibaca dari `meta` yang disertakan API.
 
 ## Menjalankan di Lokal
 
@@ -72,9 +80,9 @@ Di-deploy sebagai static site ke **Netlify**, langsung dari repo GitHub (tanpa b
 
 Saya menggunakan **Claude (Anthropic)** sebagai asisten selama membangun frontend ini. Cara pakainya:
 
-- **Struktur halaman didiskusikan dulu** sebelum ditulis — misalnya kenapa satu form dipakai untuk tambah dan edit sekaligus (dibedakan lewat hidden input), bukan dua form terpisah.
-- **Penjelasan tiap potongan kode**, bukan cuma kode jadi — misalnya kenapa cek `response.ok` diperlukan saat pakai `fetch()`, atau kenapa token disimpan di `localStorage` bukan cookie.
-- **Bantuan debugging** untuk error yang belum saya pahami penyebabnya, seperti error CORS akibat origin `null` saat file dibuka langsung tanpa Live Server.
+- **Struktur halaman didiskusikan dulu** sebelum ditulis — misalnya kenapa satu form dipakai untuk tambah dan edit sekaligus, kenapa helper toast/confirm dipisah ke file `ui.js` tersendiri supaya bisa dipakai di beberapa halaman tanpa duplikasi kode, atau kenapa dua jenis grafik yang dipakai (doughnut untuk proporsi kondisi, bar chart untuk perbandingan antar kategori) sengaja dibedakan.
+- **Penjelasan tiap potongan kode**, bukan cuma kode jadi — misalnya kenapa cek `response.ok` diperlukan saat pakai `fetch()`, kenapa token disimpan di `localStorage` bukan cookie, atau kenapa nilai statistik perlu dibungkus `Number()` sebelum dijumlahkan.
+- **Bantuan debugging** untuk error yang belum saya pahami penyebabnya, seperti error CORS akibat origin `null` saat file dibuka langsung tanpa Live Server, atau bug fungsi duplikat yang membuat seluruh script berhenti jalan akibat syntax error.
 - **Saya sendiri yang menjalankan dan menguji setiap perubahan** di browser, membaca pesan error di DevTools, dan memutuskan langkah perbaikannya. AI berperan sebagai tempat berdiskusi dan bertanya, bukan yang mengerjakan project secara otomatis.
 
 ## Penulis
